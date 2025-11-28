@@ -14,9 +14,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 AUTH_USER_MODEL = 'creditapp.CustomUser'
 
 SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-sup!9ul76)mya)!y$=y5i*9vp!jh3qt1slat+_!kpgfc%gf@@d")
-DEBUG = True
+DEBUG = os.getenv("DEBUG") == "True"
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(",")
 
 # Application definition
 INSTALLED_APPS = [
@@ -52,7 +52,7 @@ MIDDLEWARE = [
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
 ]
-CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOWED_ORIGINS = os.getenv("CORS_ORIGINS").split(",")
 
 ROOT_URLCONF = 'AdminServer.urls'
 
