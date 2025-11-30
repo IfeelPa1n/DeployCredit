@@ -51,7 +51,13 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
+    "https://deploycredit-1.onrender.com",
 ]
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://deploycredit-1.onrender.com",
+]
+
 CORS_ALLOWED_ORIGINS = os.getenv("CORS_ORIGINS").split(",")
 
 ROOT_URLCONF = 'AdminServer.urls'
