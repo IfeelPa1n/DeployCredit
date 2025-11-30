@@ -8,18 +8,22 @@ from dotenv import load_dotenv
 import dj_database_url
 
 # Load environment variables
-load_dotenv()
+load_dotenv() 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 AUTH_USER_MODEL = 'creditapp.CustomUser'
 
-SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-sup!9ul76)mya)!y$=y5i*9vp!jh3qt1slat+_!kpgfc%gf@@d")
+# -------------------
+# SECURITY SETTINGS
+# -------------------
+SECRET_KEY = os.getenv("SECRET_KEY", "unsafe-fallback-key")
 DEBUG = os.getenv("DEBUG") == "True"
 
-# Below was removed for deployment unremoved if you want to do it local deployment
-# ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(",")
+ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
 
-# Application definition
+# -------------------
+# APPLICATION SETUP
+# -------------------
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -50,39 +54,24 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-CORS_ALLOWED_ORIGINS = [
-    "https://deploycredit-1.onrender.com",  # Frontend
-    "http://localhost:5173",  # Local dev (optional)
-]
+# -------------------
+# CORS / CSRF
+# -------------------
+CORS_ALLOWED_ORIGINS = os.getenv("CORS_ORIGINS", "").split(",")
 
 CSRF_TRUSTED_ORIGINS = [
     "https://deploycredit-1.onrender.com",
 ]
 
-CORS_ALLOWED_ORIGINS = os.getenv("CORS_ORIGINS").split(",")
-
+# -------------------
+# URL CONF
+# -------------------
 ROOT_URLCONF = 'AdminServer.urls'
-
-TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
-        },
-    },
-]
-
 WSGI_APPLICATION = 'AdminServer.wsgi.application'
 
-# Database (Railway PostgreSQL)
-SECRET_KEY = os.getenv("SECRET_KEY")
-
+# -------------------
+# DATABASE
+# -------------------
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -94,6 +83,9 @@ DATABASES = {
     }
 }
 
+# -------------------
+# PASSWORD
+# -------------------
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
     {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator"},
@@ -101,11 +93,17 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator"},
 ]
 
+# -------------------
+# I18N
+# -------------------
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
+# -------------------
+# STATIC FILES
+# -------------------
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
