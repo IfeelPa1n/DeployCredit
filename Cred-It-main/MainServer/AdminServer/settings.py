@@ -16,7 +16,8 @@ AUTH_USER_MODEL = 'creditapp.CustomUser'
 SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-sup!9ul76)mya)!y$=y5i*9vp!jh3qt1slat+_!kpgfc%gf@@d")
 DEBUG = os.getenv("DEBUG") == "True"
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(",")
+# Below was removed for deployment unremoved if you want to do it local deployment
+# ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS").split(",")
 
 # Application definition
 INSTALLED_APPS = [
@@ -50,8 +51,8 @@ MIDDLEWARE = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",
-    "https://deploycredit-1.onrender.com",
+    "https://deploycredit-1.onrender.com",  # Frontend
+    "http://localhost:5173",  # Local dev (optional)
 ]
 
 CSRF_TRUSTED_ORIGINS = [
