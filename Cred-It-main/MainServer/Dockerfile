@@ -26,7 +26,7 @@ WORKDIR /app
 # ------------------------
 # Copy Requirements
 # ------------------------
-COPY requirements.txt .
+COPY MainServer/requirements.txt .
 
 # ------------------------
 # Install Python libs (Torch CPU)
@@ -39,7 +39,7 @@ RUN pip install --no-cache-dir --upgrade pip \
 # ------------------------
 # Copy Project Files
 # ------------------------
-COPY . .
+COPY MainServer/ .   # <-- copy everything from MainServer
 
 # ------------------------
 # Collect Static (optional)
