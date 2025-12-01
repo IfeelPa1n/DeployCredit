@@ -32,7 +32,7 @@ COPY requirements.txt .
 # Upgrade pip and install dependencies
 # ------------------------
 RUN pip install --no-cache-dir --upgrade pip \
-    && pip install --no-cache-dir numpy<2 \
+    pip install --no-cache-dir numpy\<2 \
     && pip install --no-cache-dir -r requirements.txt \
     && pip install --no-cache-dir torch==2.2.2+cpu torchvision==0.17.2+cpu --extra-index-url https://download.pytorch.org/whl/cpu \
     && pip install --no-cache-dir gunicorn
