@@ -17,9 +17,9 @@ AUTH_USER_MODEL = 'creditapp.CustomUser'
 # SECURITY SETTINGS
 # -------------------
 SECRET_KEY = os.getenv("SECRET_KEY", "unsafe-fallback-key")
-DEBUG = os.getenv("DEBUG") == "True"
+DEBUG = os.getenv("DEBUG", "False").lower() == "true"
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "").split(",")
+ALLOWED_HOSTS = [h.strip() for h in os.getenv("ALLOWED_HOSTS", "").split(",") if h.strip()]
 
 # -------------------
 # APPLICATION SETUP
@@ -57,11 +57,10 @@ MIDDLEWARE = [
 # -------------------
 # CORS / CSRF
 # -------------------
-CORS_ALLOWED_ORIGINS = os.getenv("CORS_ORIGINS", "").split(",")
+CORS_ALLOWED_ORIGINS = [o.strip() for o in os.getenv("CORS_ORIGINS", "").split(",") if o.strip()]
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://deploycredit-1.onrender.com",
-]
+CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS
+# CSRF_TRUSTED_ORIGINS = ["https://deploycredit-1.onrender.com",]
 
 # -------------------
 # URL CONF
@@ -94,11 +93,11 @@ TEMPLATES = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.getenv("DB_NAME"),
-        'USER': os.getenv("DB_USER"),
-        'PASSWORD': os.getenv("DB_PASSWORD"),
-        'HOST': os.getenv("DB_HOST"),
-        'PORT': os.getenv("DB_PORT"),
+        'NAME': os.getenv("DB_NAME", ""),
+        'USER': os.getenv("DB_USER", ""),
+        'PASSWORD': os.getenv("DB_PASSWORD", ""),
+        'HOST': os.getenv("DB_HOST", ""),
+        'PORT': os.getenv("DB_PORT", ""),
     }
 }
 
