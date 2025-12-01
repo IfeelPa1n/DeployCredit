@@ -4,7 +4,7 @@
 FROM python:3.11-slim
 
 # ------------------------
-# System Dependencies (for OpenCV + OCR)
+# System Dependencies (for OpenCV + OCR + general build)
 # ------------------------
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -19,7 +19,7 @@ RUN apt-get update && apt-get install -y \
     && rm -rf /var/lib/apt/lists/*
 
 # ------------------------
-# Set Work Directory
+# Set Working Directory
 # ------------------------
 WORKDIR /app
 
@@ -42,9 +42,20 @@ RUN pip install --no-cache-dir --upgrade pip \
 COPY . .
 
 # ------------------------
-# Collect Static (optional)
+# Set Environment Variables for Django
+# ------------------------
+ENV PYTHONUNBUFFERED=1
+ENV DJANGO_SETTINGS_MODULE=AdminServer.settings
+
+# ------------------------
+# Collect Static Files
 # ------------------------
 RUN python manage.py collectstatic --noinput || true
+
+# ------------------------
+# Apply Migrations (optional, safe for build)
+# ------------------------
+RUN python manage.py migrate || true
 
 # ------------------------
 # Expose Port
@@ -54,4 +65,4 @@ EXPOSE 8000
 # ------------------------
 # Run Gunicorn
 # ------------------------
-CMD ["gunicorn", "AdminServer.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["gunicorn", "AdminServer.wsgi:application", "--bind", "0.0.0.0:8000", "--workers", "4"]
